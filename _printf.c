@@ -1,34 +1,5 @@
 #include "main.h"
 
-int resolve_specifiers(va_list args, int i)
-{
-	while (format[i] == '%')
-	{
-		switch (format[i + 1])
-		{
-			case 'c':
-				printed += print_char(args);
-				i += 2;
-				break;
-			case '%':
-				_putchar('%');
-				printed++;
-				i += 2;
-				break;
-			case 's':
-				printed += print_string(args);
-				i += 2;
-				break;
-			default:
-				_putchar(format[i]);
-				_putchar(format[i + 1]);
-				i += 2;
-		}
-	}
-	
-	return (i);
-}
-
 /**
  * _printf - prints anything
  * @format: the format string
@@ -44,7 +15,29 @@ int _printf(const char *format, ...)
 	va_start(args, format);
 	while (format[i])
 	{
-		i = resolve_specifiers(args, i);
+		while (format[i] == '%')
+		{
+			switch (format[i + 1])
+			{
+				case 'c':
+					printed += print_char(args);
+					i += 2;
+					break;
+				case '%':
+					_putchar('%');
+					printed++;
+					i += 2;
+					break;
+				case 's':
+					printed += print_string(args);
+					i += 2;
+					break;
+				default:
+					_putchar(format[i]);
+					_putchar(format[i + 1]);
+					i += 2;
+			}
+		}
 
 		if (format[i])
 		{
